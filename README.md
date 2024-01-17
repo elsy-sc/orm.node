@@ -5,7 +5,7 @@ Object-Relational Mapping for Nodejs using Express framework
 # .env file format
 ### Database
 ```
-DB_URL=root
+DB_URL=
 ```
 
 ### Application
