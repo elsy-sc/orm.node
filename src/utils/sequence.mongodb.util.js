@@ -16,9 +16,7 @@ async function getNextVal(name) {
 async function createSeq(name) {
     const db = await getMongoDBConnection();
     const sequence = await db.collection("sequence").findOne({ _id: name });
-    if(!sequence){
-        await db.collection("sequence").insertOne({ _id: name, value: 0 });
-    }
+    if(!sequence) await db.collection("sequence").insertOne({ _id: name, value: 0 });
 }
 
 exports.getCurrVal = getCurrVal;
