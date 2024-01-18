@@ -1,16 +1,25 @@
-function createVoiture(req, res) {
-    res.send("create voiture");
+const { Voiture } = require("../models/voiture.model");
+const { getMongoDBConnection } = require("../utils/db.util");
+
+async function createVoiture(req, res) {
+    const db = await getMongoDBConnection();
+    new Voiture(req.body?.marque, req.body?.modele, req.body?.couleur, req.body?.annee, req.body?.prix).create(db).then(() => {
+        res.status(201).send("Created");
+    });
 }
 
-function readVoiture(req, res) {
-    res.send("read voiture");
+async function readVoiture(req, res) {
+    const db = await getMongoDBConnection();
+    new Voiture().read(db).then((result) => {
+        res.status(200).send(result);
+    });
 }
 
-function updateVoiture(req, res) {
+async function updateVoiture(req, res) {
     res.send("update voiture");
 }
 
-function deleteVoiture(req, res) {
+async function deleteVoiture(req, res) {
     res.send("delete voiture");
 }
 

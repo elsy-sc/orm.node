@@ -1,16 +1,26 @@
-function createPersonne(req, res){
-    res.send("create Personne");
+const { Personne } = require("../models/personne.model");
+const { getMongoDBConnection } = require("../utils/db.util");
+
+
+async function createPersonne(req, res){
+    const db = await getMongoDBConnection();
+    new Personne(req.body?.nom, req.body?.prenom, req.body?.age).create(db).then( () => {
+        res.status(201).send("Created");
+    });
 }
 
-function readPersonne(req, res){
-    res.send("read Personne");
+async function readPersonne(req, res){
+    const db = await getMongoDBConnection();
+    new Personne().read(db, new Personne()).then( (result) => {
+        res.status(200).send(result);
+    });
 }
 
-function updatePersonne(req, res){
+async function updatePersonne(req, res){
     res.send("update Personne");
 }
 
-function deletePersonne(req, res){
+async function deletePersonne(req, res){
     res.send("delete Personne");
 }
 

@@ -11,36 +11,36 @@ class TableObject {
         start: this.constructor.name.substring(0, 4).toUpperCase(),
     };
 
-    #getSanitizedObject() {
+    getSanitizedObject() {
         const object = { ...this };
         delete object.tableName;
         delete object.sequence;
         return object;
     }
 
-    async #setId() {
-        await getNextVal(this.sequence.name).then((value) => {
+    async setId(db) {
+        await getNextVal(db, this.sequence.name).then((value) => {
             this._id = this.sequence.start + value;
         });
     }
 
     async create(db) {
-        await createSeq(this.sequence.name);
-        await this.#setId();
+        await createSeq(db, this.sequence.name);
+        await this.setId(db);
         this._state = 1;
-        await db.collection(this.tableName).insertOne(this.#getSanitizedObject());
+        await db.collection(this.tableName).insertOne(this.getSanitizedObject());
     }
 
     async read(db, whereObject, afterWhereString) {
-        whereObject = whereObject.#getSanitizedObject();
+        whereObject = whereObject?.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         return await db.collection(this.tableName).find(combinedWhere).toArray();
     }
 
     async update(db, whereObject, setObject, afterWhereString, afterSetString) {    
-        whereObject = whereObject.#getSanitizedObject();
-        setObject = setObject.#getSanitizedObject();
+        whereObject = whereObject?.getSanitizedObject();
+        setObject = setObject?.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         let combinedSet = combineObject(filterNullColumn(setObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
@@ -49,7 +49,7 @@ class TableObject {
     }
 
     async delete(db, whereObject, afterWhereString) {
-        whereObject = whereObject.#getSanitizedObject();
+        whereObject = whereObject?.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         await db.collection(this.tableName).deleteMany(combinedWhere);
