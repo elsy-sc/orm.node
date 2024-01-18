@@ -7,7 +7,7 @@ const routes = require("./src/routes/index.route");
 const app = express();
 const port = process.env.PORT|| 3000;
 
-jsonUtil.use(app, express);
-routeUtil.use(app, routes);
+jsonUtil.enableJson(app, express);
+routeUtil.loadRoutes(app, routes);
 
 app.listen(port, () => console.log("Listening on port", port, "..."));

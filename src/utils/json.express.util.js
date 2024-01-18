@@ -1,6 +1,6 @@
-function use(app, express) {
+function enableJson(app, express) {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 }
 
-exports.use = use;
+exports.enableJson = enableJson;
