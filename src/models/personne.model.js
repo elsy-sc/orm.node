@@ -1,10 +1,12 @@
-class Personne {
-    constructor(id, nom, prenom, age) {
-        this.id = id;
+const { TableObject } = require("./tableobject.model");
+
+class Personne extends TableObject {
+    constructor(nom, prenom, age) { 
+        super();
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
     }
 }
 
-module.exports = Personne;
+exports.Personne = Personne;

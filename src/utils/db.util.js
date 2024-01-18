@@ -5,4 +5,4 @@ async function getMongoDBConnection() {
     return client.db(process.env.MONGODB_NAME);
 }
 
-module.exports.getMongoDBConnection = getMongoDBConnection;
+exports.getMongoDBConnection = getMongoDBConnection;
