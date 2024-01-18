@@ -5,8 +5,6 @@ const routes = require("./src/routes/index.route");
 
 const app = express();
 const port = process.env.PORT|| 3000;
-
-app.use(express.static("public")); 
 routeUtil.use(app, routes);
 
 app.listen(port, () => console.log("Listening on port", port, "..."));
