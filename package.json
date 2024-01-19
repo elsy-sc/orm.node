@@ -4,7 +4,8 @@
   "description": "Object-Relational Mapping for Nodejs using Express framework",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "start" : "node .",
+    "dev": "nodemon ."
   },
   "repository": {
     "type": "git",

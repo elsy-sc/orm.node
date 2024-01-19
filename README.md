@@ -16,6 +16,15 @@ PORT=[port]
 ```
 
 # Usage
+you need to install nodemon for auto reload
+```bash
+npm install -g nodemon
+```
+then run
+```bash
+npm run dev
+```
+if you don't want auto reload, run
 ```bash
 npm start
 ```
