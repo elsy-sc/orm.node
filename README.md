@@ -1,15 +1,18 @@
 # orm.node
 Object-Relational Mapping for Nodejs using Express framework
 
-
-# .env file format
-### Database
+# Installation
+```bash
+npm install
 ```
-DB_URL=
+# Usage
+```bash
+npm start
 ```
-
-### Application
+# .env file
+Create a .env file in the root directory of your project. Add environment-specific variables on new lines in the form of NAME=VALUE. For example:
 ```
-APP_NAME=
-PORT=
+DB_URL=postgres://user:password@localhost:5432/dbname
+APP_NAME=orm.node
+PORT=3000
 ```
