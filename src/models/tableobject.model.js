@@ -31,15 +31,16 @@ class TableObject {
         await db.collection(this.tableName).insertOne(this.getSanitizedObject());
     }
 
-    async read(db, whereObject, afterWhereString) {
-        whereObject = whereObject?.getSanitizedObject();
+    async read(db, afterWhereString) {
+        let whereObject = this.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
+        console.log(combinedWhere)
         return await db.collection(this.tableName).find(combinedWhere).toArray();
     }
 
-    async update(db, whereObject, setObject, afterWhereString, afterSetString) {    
-        whereObject = whereObject?.getSanitizedObject();
+    async update(db, setObject, afterWhereString, afterSetString) {    
+        let whereObject = this.getSanitizedObject();
         setObject = setObject?.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         let combinedSet = combineObject(filterNullColumn(setObject));
@@ -48,8 +49,8 @@ class TableObject {
         await db.collection(this.tableName).updateMany(combinedWhere, { $set: combinedSet });
     }
 
-    async delete(db, whereObject, afterWhereString) {
-        whereObject = whereObject?.getSanitizedObject();
+    async delete(db, afterWhereString) {
+        let whereObject = this.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         await db.collection(this.tableName).deleteMany(combinedWhere);

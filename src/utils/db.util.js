@@ -7,9 +7,7 @@ async function setMongoDBConnection() {
 }
 
 async function getMongoDBConnection() {
-  if (!db) {
-    await setMongoDBConnection();
-  }
+  if (!db) await setMongoDBConnection();
   return db;
 }
 exports.startMongoDB = setMongoDBConnection;

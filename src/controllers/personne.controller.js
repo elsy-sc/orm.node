@@ -12,7 +12,7 @@ async function createPersonne(req, res){
 
 async function readPersonne(req, res){
     const db = await getMongoDBConnection();
-    new Personne().read(db, new Personne()).then( (result) => {
+    new Personne(req.body?.nom).read(db).then( (result) => {
         Http.sendJson(res, result, 200);
     });
 }

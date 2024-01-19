@@ -1,13 +1,9 @@
 class Http {
     static sendJson(response, data, status, message){
-        data = data || [];
-        status = status || 200;
-        message = message || "";
-        response.send({
-            message,
-            status,
-            data
-        });
+        data = data|| [];
+        status = status|| 200;
+        message = message|| "";
+        response.send({ message, status, data });
     }
 }
 
