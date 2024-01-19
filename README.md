@@ -1,5 +1,5 @@
 # orm.node
-Object-Relational Mapping for Nodejs using Express framework
+Object-Relational Mapping for Nodejs using Express framework and MongoDB
 
 # Installation
 ```bash

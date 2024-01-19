@@ -1,5 +1,6 @@
 const { Personne } = require("../models/personne.model");
 const { getMongoDBConnection } = require("../utils/db.util");
+const { Http } = require("../utils/http.util");
 
 
 async function createPersonne(req, res){
@@ -12,7 +13,7 @@ async function createPersonne(req, res){
 async function readPersonne(req, res){
     const db = await getMongoDBConnection();
     new Personne().read(db, new Personne()).then( (result) => {
-        res.status(200).send(result);
+        Http.sendJson(res, result, 200);
     });
 }
 
