@@ -1,9 +1,5 @@
 function filterNullColumn(object) {
-    if (object) {
-        return Object.fromEntries(
-            Object.entries(object).filter(([key, value]) => value != null)
-        );
-  }
+  if (object) return Object.fromEntries(Object.entries(object).filter(([key, value]) => value != null));
   return {};
 }
 

@@ -13,6 +13,7 @@ MONGODB_URL=[url]
 MONGODB_NAME=[dbname]
 APP_NAME=[appname]
 PORT=[port]
+BCRYPT_SALT_ROUNDS=[bcrypt_salt_rounds]
 ```
 
 # Usage

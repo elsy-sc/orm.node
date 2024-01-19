@@ -4,7 +4,7 @@
   "description": "Object-Relational Mapping for Nodejs using Express framework",
   "main": "server.js",
   "scripts": {
-    "start" : "node .",
+    "start": "node .",
     "dev": "nodemon ."
   },
   "repository": {
@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/elsy-sc/orm.node#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongodb": "^6.3.0"  
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0"
   }
 }

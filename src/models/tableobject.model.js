@@ -18,42 +18,41 @@ class TableObject {
         return object;
     }
 
-    async setId(db) {
-        await getNextVal(db, this.sequence.name).then((value) => {
+    async setId(connection) {
+        await getNextVal(connection, this.sequence.name).then((value) => {
             this._id = this.sequence.start + value;
         });
     }
 
-    async create(db) {
-        await createSeq(db, this.sequence.name);
-        await this.setId(db);
+    async create(connection) {
+        await createSeq(connection, this.sequence.name);
+        await this.setId(connection);
         this._state = 1;
-        await db.collection(this.tableName).insertOne(this.getSanitizedObject());
+        await connection.collection(this.tableName).insertOne(this.getSanitizedObject());
     }
 
-    async read(db, afterWhereString) {
+    async read(connection, afterWhereString) {
         let whereObject = this.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
-        console.log(combinedWhere)
-        return await db.collection(this.tableName).find(combinedWhere).toArray();
+        return await connection.collection(this.tableName).find(combinedWhere).toArray();
     }
 
-    async update(db, setObject, afterWhereString, afterSetString) {    
+    async update(connection, setObject, afterWhereString, afterSetString) {    
         let whereObject = this.getSanitizedObject();
         setObject = setObject?.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         let combinedSet = combineObject(filterNullColumn(setObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         if (afterSetString) combinedSet = combineObject(combinedSet, afterSetString);
-        await db.collection(this.tableName).updateMany(combinedWhere, { $set: combinedSet });
+        await connection.collection(this.tableName).updateMany(combinedWhere, { $set: combinedSet });
     }
 
-    async delete(db, afterWhereString) {
+    async delete(connection, afterWhereString) {
         let whereObject = this.getSanitizedObject();
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
-        await db.collection(this.tableName).deleteMany(combinedWhere);
+        await connection.collection(this.tableName).deleteMany(combinedWhere);
     }
 }
 
