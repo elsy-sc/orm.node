@@ -17,10 +17,8 @@ async function readPersonne(req, res){
     // utilisateur.expirationDate = "2024-01-20 18:00:00";
     // utilisateur.refreshToken(db);
     // utilisateur.create(db);
-    let tokenVerification = await utilisateur.verifyToken(db);
-
-    console.log("verification=" + await utilisateur.verifyToken(db));
-
+    
+    let tokenVerification = { tokenVerification:  await utilisateur.verifyToken(db) };
 
     new Personne().read(db).then( (result) => {
         httpUtil.sendJson(res, tokenVerification, 200);
