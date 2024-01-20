@@ -5,7 +5,6 @@ class Utilisateur extends TokenObject {
         super();
         this.email = email;
         this.password = password;
-        this.secret = password;
     }
 }
 

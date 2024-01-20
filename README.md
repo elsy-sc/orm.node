@@ -15,6 +15,7 @@ APP_NAME=[appname]
 PORT=[port]
 BCRYPT_SALT_ROUNDS=[bcrypt_salt_rounds]
 DATE_FORMAT=[date_format]
+SECRET_TOKEN_KEY=[secret_token_key]
 ```
 
 # Usage
