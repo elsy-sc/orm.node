@@ -12,7 +12,6 @@ async function createPersonne(req, res){
 
 async function readPersonne(req, res){
     const db = await getMongoDBDatabase();
-    let utilisateur = new Utilisateur();
     new Personne().read(db).then( (result) => {
         httpUtil.sendJson(res, result, 200);
     });
