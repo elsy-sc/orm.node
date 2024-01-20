@@ -2,10 +2,10 @@ const jwt = require("jsonwebtoken");
 const { TableObject } = require("./tableobject.bean");
 const { Date } = require("./date.bean.util");
 
-class TokenObject extends TableObject {
-    constructor(token, secret, expirationDateString) { 
+class Token extends TableObject {
+    constructor(value, secret, expirationDateString) { 
         super();
-        this.token = token;
+        this.value = value;
         this.secret = secret;
         this.expirationDate = expirationDateString;
     }
@@ -18,11 +18,11 @@ class TokenObject extends TableObject {
 
     setToken() {
         if (!this.expirationDate) {
-            this.token = jwt.sign({
+            this.value = jwt.sign({
                 data: this.getSanitizedObject()
             }, this.secret);
         } else {
-            this.token = jwt.sign({
+            this.value = jwt.sign({
                 exp: new Date(this.expirationDate).toSeconds(),
                 data: this.getSanitizedObject()
             }, this.secret);
@@ -31,16 +31,16 @@ class TokenObject extends TableObject {
     }
 
     async verifyToken(db) {
-        if (!this.token) {
+        if (!this.value) {
             let data = await this.read(db);
             if (data) {
                 data = data[0];
             }
-            this.token = data.token;
+            this.value = data.value;
             this.expirationDate = data.expirationDate;
         } 
         try {
-            jwt.verify(this.token, this.secret);
+            jwt.verify(this.value, this.secret);
             return true;
         } catch (error) {
             return false;
@@ -49,21 +49,28 @@ class TokenObject extends TableObject {
 
     async refreshToken(db) {
         this.setToken();
-        const { token, expirationDate } = this;
-        this.token = undefined;
+        const { value, expirationDate } = this;
+        this.value = undefined;
         this.expirationDate = undefined;
-        await this.update(db , { token: token, expirationDate: expirationDate });
-        this.token = token;
+        await this.update(db , { value: value, expirationDate: expirationDate });
+        this.value = value;
         this.expirationDate = expirationDate;
+        await new Token(this.value, undefined, this.expirationDate).#createSuper(db);
     }
 
-    create(db) {
-        if (!this.token) {
+
+    async #createSuper(db) {
+        await super.create(db);
+    }
+
+    async create(db) {
+        if (!this.value) {
             this.setToken();
         }
-        return super.create(db);
+        await super.create(db);
+        await new Token(this.value, undefined, this.expirationDate).#createSuper(db);
     }    
     
 }
 
-exports.TokenObject = TokenObject;
+exports.TokenObject = Token;

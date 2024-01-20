@@ -13,11 +13,13 @@ async function createPersonne(req, res){
 async function readPersonne(req, res){
     const db = await getMongoDBDatabase();
 
-    let utilisateur = new Utilisateur("yels@gmail.com", "motdepasse");
-    // utilisateur.expirationDate = "2024-01-20 18:00:00";
+    let utilisateur = new Utilisateur();
+    utilisateur._id = "UTIL9";
+    utilisateur.secret = "secret";
+    // utilisateur.expirationDate = "2024-01-20 21:32:00";
     // utilisateur.refreshToken(db);
     // utilisateur.create(db);
-    
+
     let tokenVerification = { tokenVerification:  await utilisateur.verifyToken(db) };
 
     new Personne().read(db).then( (result) => {

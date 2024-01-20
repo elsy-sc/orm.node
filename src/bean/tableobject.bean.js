@@ -31,6 +31,8 @@ class TableObject {
 
     async read(connection, afterWhereString) {
         let whereObject = this.getSanitizedObject();
+        if (this._id) whereObject._id = this._id;
+        if (this._state) whereObject._state = this._state;
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         return await connection.collection(this.tableName).find(combinedWhere).toArray();
@@ -38,6 +40,8 @@ class TableObject {
 
     async update(connection, setObject, afterWhereString, afterSetString) {    
         let whereObject = this.getSanitizedObject();
+        if (this._id) whereObject._id = this._id;
+        if (this._state) whereObject._state = this._state;
         if (setObject) setObject = sanitizedObject(setObject);
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         let combinedSet = combineObject(filterNullColumn(setObject));
@@ -48,6 +52,8 @@ class TableObject {
 
     async delete(connection, afterWhereString) {
         let whereObject = this.getSanitizedObject();
+        if (this._id) whereObject._id = this._id;
+        if (this._state) whereObject._state = this._state;
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);
         await connection.collection(this.tableName).deleteMany(combinedWhere);
