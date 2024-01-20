@@ -1,16 +1,16 @@
 const { Personne } = require("../models/personne.model");
-const { getMongoDBConnection } = require("../utils/db.util");
+const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
 
 async function createPersonne(req, res){
-    const db = await getMongoDBConnection();
+    const db = await getMongoDBDatabase();
     new Personne(req.body?.nom, req.body?.prenom, req.body?.age).create(db).then( () => {
-        res.status(201).send("Created");
+        httpUtil.sendJson(res, null, 201, "Created");
     });
 }
 
 async function readPersonne(req, res){
-    const db = await getMongoDBConnection();
+    const db = await getMongoDBDatabase();
     new Personne().read(db).then( (result) => {
         httpUtil.sendJson(res, result, 200);
     });

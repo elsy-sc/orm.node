@@ -1,17 +1,18 @@
 const { Voiture } = require("../models/voiture.model");
-const { getMongoDBConnection } = require("../utils/db.util");
+const { getMongoDBDatabase } = require("../utils/db.util");
+const httpUtil = require("../utils/http.util");
 
 async function createVoiture(req, res) {
-    const db = await getMongoDBConnection();
+    const db = await getMongoDBDatabase();
     new Voiture(req.body?.marque, req.body?.modele, req.body?.couleur, req.body?.annee, req.body?.prix).create(db).then(() => {
-        res.status(201).send("Created");
+        httpUtil.sendJson(res, null, 201, "Created");
     });
 }
 
 async function readVoiture(req, res) {
-    const db = await getMongoDBConnection();
+    const db = await getMongoDBDatabase();
     new Voiture().read(db).then((result) => {
-        res.status(200).send(result);
+        httpUtil.sendJson(res, result, 200);
     });
 }
 

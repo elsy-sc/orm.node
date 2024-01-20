@@ -1,18 +1,18 @@
 const MongoClient = require("mongodb").MongoClient;
 
-let connection;
+let db;
 
-async function setMongoDBConnection() {
+async function setMongoDBDatabase() {
   await MongoClient.connect(process.env.MONGODB_URL).then((client) => {
-    connection = client.db(process.env.MONGODB_NAME);
+    db = client.db(process.env.MONGODB_NAME);
   });
 }
 
-async function getMongoDBConnection() {
-  if (!connection) await setMongoDBConnection();
-  return connection;
+async function getMongoDBDatabase() {
+  if (!db) await setMongoDBDatabase();
+  return db;
 }
 
 
-exports.startMongoDBConnection = setMongoDBConnection;
-exports.getMongoDBConnection = getMongoDBConnection; 
+exports.startMongoDBDatabase = setMongoDBDatabase;
+exports.getMongoDBDatabase = getMongoDBDatabase;
