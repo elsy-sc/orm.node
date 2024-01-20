@@ -1,4 +1,4 @@
-const { TableObject } = require("./tableobject.model");
+const { TableObject } = require("../bean/tableobject.bean");
 
 class Voiture extends TableObject{
     constructor(marque, modele, couleur, annee, prix) {

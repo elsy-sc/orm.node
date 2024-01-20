@@ -1,5 +1,6 @@
 const { filterNullColumn, combineObject } = require("../utils/object.util");
 const { getNextVal, createSeq } = require("../utils/sequence.mongodb.util");
+const { sanitizedObject } = require("../utils/tableobject.util");
 
 class TableObject {
 
@@ -12,10 +13,7 @@ class TableObject {
     };
 
     getSanitizedObject() {
-        const object = { ...this };
-        delete object.tableName;
-        delete object.sequence;
-        return object;
+        return sanitizedObject(this); 
     }
 
     async setId(connection) {
@@ -40,7 +38,7 @@ class TableObject {
 
     async update(connection, setObject, afterWhereString, afterSetString) {    
         let whereObject = this.getSanitizedObject();
-        setObject = setObject?.getSanitizedObject();
+        if (setObject) setObject = sanitizedObject(setObject);
         let combinedWhere = combineObject(filterNullColumn(whereObject));
         let combinedSet = combineObject(filterNullColumn(setObject));
         if (afterWhereString) combinedWhere = combineObject(combinedWhere, afterWhereString);

@@ -1,6 +1,7 @@
 const { Personne } = require("../models/personne.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
+const { Utilisateur } = require("../models/utilisateur.model");
 
 async function createPersonne(req, res){
     const db = await getMongoDBDatabase();
@@ -11,8 +12,18 @@ async function createPersonne(req, res){
 
 async function readPersonne(req, res){
     const db = await getMongoDBDatabase();
+
+    let utilisateur = new Utilisateur("yels@gmail.com", "motdepasse");
+    // utilisateur.expirationDate = "2024-01-20 18:00:00";
+    // utilisateur.refreshToken(db);
+    // utilisateur.create(db);
+    let tokenVerification = await utilisateur.verifyToken(db);
+
+    console.log("verification=" + await utilisateur.verifyToken(db));
+
+
     new Personne().read(db).then( (result) => {
-        httpUtil.sendJson(res, result, 200);
+        httpUtil.sendJson(res, tokenVerification, 200);
     });
 }
 

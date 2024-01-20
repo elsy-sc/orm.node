@@ -1,4 +1,4 @@
-const { TableObject } = require("./tableobject.model");
+const { TableObject } = require("../bean/tableobject.bean");
 
 class Personne extends TableObject {
     constructor(nom, prenom, age) { 

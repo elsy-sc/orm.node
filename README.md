@@ -14,6 +14,7 @@ MONGODB_NAME=[dbname]
 APP_NAME=[appname]
 PORT=[port]
 BCRYPT_SALT_ROUNDS=[bcrypt_salt_rounds]
+DATE_FORMAT=[date_format]
 ```
 
 # Usage
