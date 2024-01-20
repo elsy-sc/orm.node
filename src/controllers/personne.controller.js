@@ -1,7 +1,6 @@
 const { Personne } = require("../models/personne.model");
 const { getMongoDBDatabase } = require("../utils/db.util");
 const httpUtil = require("../utils/http.util");
-const { Utilisateur } = require("../models/utilisateur.model");
 
 async function createPersonne(req, res){
     const db = await getMongoDBDatabase();
