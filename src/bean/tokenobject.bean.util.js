@@ -12,6 +12,7 @@ class Token extends TableObject {
 
     setToken() {
         let secret = process.env.SECRET_TOKEN_KEY|| "secret";
+        this.creationDate = new Date().date;
         if (!this.expirationDate) {
             this.tokenValue = jwt.sign({
                 data: this.getSanitizedObject()
@@ -59,7 +60,6 @@ class Token extends TableObject {
         if (!this.tokenValue) {
             this.setToken();
         }
-        this.creationDate = new Date().date;
         await super.create(db);
     }    
 }
