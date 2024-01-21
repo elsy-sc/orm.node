@@ -22,18 +22,19 @@ class Token extends TableObject {
                 data: this.getSanitizedObject()
             }, secret);
         }
-
     }
 
     async verifyToken(db) {
-        if (!this.tokenValue) {
-            let data = await this.read(db);
-            if (data) {
-                data = data[0];
-            }
-            this.tokenValue = data.tokenValue;
-            this.expirationDate = data.expirationDate;
-        } 
+        if (db) {
+            if (!this.tokenValue) {
+                let data = await this.read(db);
+                if (data) {
+                    data = data[0];
+                }
+                this.tokenValue = data.tokenValue;
+                this.expirationDate = data.expirationDate;
+            } 
+        }
         try {
             jwt.verify(this.tokenValue, process.env.SECRET_TOKEN_KEY|| "secret");
             return true;
@@ -44,12 +45,14 @@ class Token extends TableObject {
 
     async refreshToken(db) {
         this.setToken();
-        const { tokenValue, expirationDate } = this;
-        this.tokenValue = undefined;
-        this.expirationDate = undefined;
-        await this.update(db , { tokenValue: tokenValue, expirationDate: expirationDate });
-        this.tokenValue = tokenValue;
-        this.expirationDate = expirationDate;
+        if (db) {
+            const { tokenValue, expirationDate } = this;
+            this.tokenValue = undefined;
+            this.expirationDate = undefined;
+            await this.update(db , { tokenValue: tokenValue, expirationDate: expirationDate });
+            this.tokenValue = tokenValue;
+            this.expirationDate = expirationDate;
+        }
     }
 
     async create(db) {
