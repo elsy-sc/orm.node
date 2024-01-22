@@ -3,23 +3,23 @@ const { TableObject } = require("./tableobject.bean");
 const { Date } = require("./date.bean.util");
 
 class Token extends TableObject {
-    constructor(tokenValue, expirationDateString) { 
+    constructor(tokenValue, tokenExpirationDateString) { 
         super();
         this.tokenValue = tokenValue;
-        this.creationDate = undefined;
-        this.expirationDate = expirationDateString;
+        this.tokenCreationDate = undefined;
+        this.tokenExpirationDate = tokenExpirationDateString;
     }
 
     setToken() {
         let secret = process.env.SECRET_TOKEN_KEY|| "secret";
-        this.creationDate = new Date().date;
-        if (!this.expirationDate) {
+        this.tokenCreationDate = new Date().date;
+        if (!this.tokenExpirationDate) {
             this.tokenValue = jwt.sign({
                 data: this.getSanitizedObject()
             }, secret);
         } else {
             this.tokenValue = jwt.sign({
-                exp: new Date(this.expirationDate).toSeconds(),
+                exp: new Date(this.tokenExpirationDate).toSeconds(),
                 data: this.getSanitizedObject()
             }, secret);
         }
@@ -33,7 +33,7 @@ class Token extends TableObject {
                     data = data[0];
                 }
                 this.tokenValue = data.tokenValue;
-                this.expirationDate = data.expirationDate;
+                this.tokenExpirationDate = data.tokenExpirationDate;
             } 
         }
         try {
@@ -47,12 +47,12 @@ class Token extends TableObject {
     async refreshToken(db) {
         this.setToken();
         if (db) {
-            const { tokenValue, expirationDate } = this;
+            const { tokenValue, tokenExpirationDate } = this;
             this.tokenValue = undefined;
-            this.expirationDate = undefined;
-            await this.update(db , { tokenValue: tokenValue, expirationDate: expirationDate });
+            this.tokenExpirationDate = undefined;
+            await this.update(db , { tokenValue: tokenValue, tokenExpirationDate: tokenExpirationDate });
             this.tokenValue = tokenValue;
-            this.expirationDate = expirationDate;
+            this.tokenExpirationDate = tokenExpirationDate;
         }
     }
 
