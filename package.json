@@ -1,0 +1,29 @@
+{
+  "name": "orm.node",
+  "version": "1.0.0",
+  "description": "Object-Relational Mapping for Nodejs using Express framework",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elsy-sc/orm.node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elsy-sc/orm.node/issues"
+  },
+  "homepage": "https://github.com/elsy-sc/orm.node#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.30.1",
+    "mongodb": "^6.3.0"
+  }
+}
